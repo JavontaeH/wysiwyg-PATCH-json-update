@@ -1,0 +1,25 @@
+.singleCelebrity:focus {
+  border-style: dotted;
+}
+
+.name {
+  font-size: 56px;
+  font-weight: bolder;
+}
+
+.bio {
+  font-size: 48px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 25px;
+}
+
+.bio img {
+  max-width: 512px;
+  max-height: 512px;
+}
+
+.lifespan {
+  margin-top: 25px;
+  font-size: 24px;
+}
