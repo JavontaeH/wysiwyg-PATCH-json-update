@@ -10,4 +10,15 @@ export const celebrityData = [
       death: 1797,
     },
   },
+  {
+    title: "Comedian",
+    name: "Norm Macdonald",
+    bio: "A Canadian stand-up comedian, writer, and actor who was known for his style of deadpan humor and interjecting poetic, sometimes old-fashioned turns of phrase.",
+    image:
+      "https://upload.wikimedia.org/wikipedia/commons/3/3c/Norm_Macdonald.jpg",
+    lifespan: {
+      birth: 1959,
+      death: 2021,
+    },
+  },
 ];
