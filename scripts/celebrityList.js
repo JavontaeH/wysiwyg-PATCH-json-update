@@ -26,30 +26,26 @@ export const buildCelebrities = (data) => {
 };
 
 // when you click an element in celebrity list, put a border around that element's parent, focus the textbox and allow user to change ("currently selected element but should be only the bio"), when enter is pressed remove border and SHOULD remove event listner but currently does
+let celebID;
+let splitID;
 
-let currentCelebID = 0;
 document
   .querySelector(".celebrityList")
   .addEventListener("click", (celebClickEvent) => {
-    document.getElementById(
-      `${celebClickEvent.target.id}`
-    ).parentElement.style.borderStyle = "dotted";
+    celebID = celebClickEvent.target.id;
+    splitID = celebID.split("_");
+    document.getElementById(celebID).parentElement.style.borderStyle = "dotted";
     console.log(celebClickEvent.target.id);
-    const celebID = celebClickEvent.target.id;
-    const splitID = celebID.split("_");
     document.getElementById("textInput").focus();
-    document
-      .querySelector("#textInput")
-      .addEventListener("keyup", (keyupEvent) => {
-        if (keyupEvent.keyCode !== 13) {
-          let currentText = document.getElementById("textInput").value;
-          document.getElementById(`bio_${splitID[1]}`).innerHTML = currentText;
-        }
-        if (keyupEvent.keyCode === 13) {
-          document.getElementById("textInput").value = "";
-          // document.getElementById(
-          //   `${celebClickEvent.target.id}`
-          // ).parentElement.style.borderStyle = "none";
-        }
-      });
   });
+
+document.querySelector("#textInput").addEventListener("keyup", (keyupEvent) => {
+  if (keyupEvent.keyCode !== 13) {
+    let currentText = document.getElementById("textInput").value;
+    document.getElementById(`bio_${splitID[1]}`).innerHTML = currentText;
+  }
+  if (keyupEvent.keyCode === 13) {
+    document.getElementById("textInput").value = "";
+    document.getElementById(celebID).parentElement.style.borderStyle = "none";
+  }
+});
