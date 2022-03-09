@@ -27,19 +27,20 @@ export const buildCelebrities = (data) => {
 document
   .querySelector(".celebrityList")
   .addEventListener("click", (celebClickEvent) => {
-    console.log(celebClickEvent.target.id);
+    console.log(`${celebClickEvent.currentTarget}`);
     document.getElementById(`${celebClickEvent.target.id}`).style.borderStyle =
       "dotted";
     document.getElementById("textInput").focus();
     document
       .querySelector("#textInput")
-      .addEventListener("keypress", (enterPressEvent) => {
-        let currentText = document.getElementById("textInput").value;
-        console.log(document.getElementById("textInput").value);
-        document.getElementById(`${celebClickEvent.target.id}`).innerHTML =
-          currentText;
-        if (enterPressEvent.charCode === 13) {
-          document.getElementById("textInput").innerHTML = "";
+      .addEventListener("keypress", (keypressEvent) => {
+        if (keypressEvent.charCode === 13) {
+          document.getElementById("textInput").value = "";
+        } else {
+          let currentText = document.getElementById("textInput").value;
+          console.log(currentText);
+          document.getElementById(`${celebClickEvent.target.id}`).innerHTML =
+            currentText;
         }
       });
   });
