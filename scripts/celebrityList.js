@@ -1,6 +1,7 @@
 import { celebrityData } from "./celebrityData.js";
 import { cycleBgColor } from "./helper.js";
 
+// inserts html for celebs
 const celebritiesHTMLInsert = (obj, id) => {
   const celebrityTarget = document.querySelector(".celebrityList");
   celebrityTarget.innerHTML += `
@@ -15,7 +16,7 @@ const celebritiesHTMLInsert = (obj, id) => {
   </div>
   `;
 };
-
+// iterates data and inserts html element for every celeb and adds an id to all elements of that celeb
 export const buildCelebrities = (data) => {
   let id = 1;
   celebrityData.forEach((celebrity) => {
@@ -24,23 +25,28 @@ export const buildCelebrities = (data) => {
   });
 };
 
+// when you click an element in celebrity list, put a border around that element's parent, focus the textbox and allow user to change ("currently selected element but should be only the bio"), when enter is pressed remove border and SHOULD remove event listner but currently does
 document
   .querySelector(".celebrityList")
   .addEventListener("click", (celebClickEvent) => {
-    console.log(`${celebClickEvent.currentTarget}`);
-    document.getElementById(`${celebClickEvent.target.id}`).style.borderStyle =
-      "dotted";
+    document.getElementById(
+      `${celebClickEvent.target.id}`
+    ).parentElement.style.borderStyle = "dotted";
+    const celebID = celebClickEvent.target.id;
+    const splitID = celebID.split("_");
     document.getElementById("textInput").focus();
     document
       .querySelector("#textInput")
-      .addEventListener("keypress", (keypressEvent) => {
-        if (keypressEvent.charCode === 13) {
-          document.getElementById("textInput").value = "";
-        } else {
+      .addEventListener("keyup", (keyupEvent) => {
+        if (keyupEvent.keyCode !== 13) {
           let currentText = document.getElementById("textInput").value;
-          console.log(currentText);
-          document.getElementById(`${celebClickEvent.target.id}`).innerHTML =
-            currentText;
+          document.getElementById(`bio_${splitID[1]}`).innerHTML = currentText;
+        }
+        if (keyupEvent.keyCode === 13) {
+          document.getElementById("textInput").value = "";
+          // document.getElementById(
+          //   `${celebClickEvent.target.id}`
+          // ).parentElement.style.borderStyle = "none";
         }
       });
   });
