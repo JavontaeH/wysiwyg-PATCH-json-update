@@ -7,9 +7,11 @@ const celebritiesHTMLInsert = (obj, id) => {
   celebrityTarget.innerHTML += `
   <div class = "singleCelebrity${cycleBgColor()} id=singleCelebrity_${id}" >
     <header class="name" id = "name_${id}">${obj.name}: ${obj.title}</header>
-    <section class="bio" id = "bio_${id}"><img src="${
+    <section class="bio" id = "bioTotal_${id}"><img src="${
     obj.image
-  }" alt="celebrity picture"> ${obj.bio}</section>
+  }" alt="celebrity picture">
+  <div class="bioText" id = "bio_${id}">${obj.bio}</div>
+  </section>
     <footer class="lifespan" id = "lifespan_${id}">${obj.lifespan.birth} - ${
     obj.lifespan.death
   }</footer>
@@ -25,7 +27,7 @@ export const buildCelebrities = (data) => {
   });
 };
 
-// when you click an element in celebrity list, put a border around that element's parent, focus the textbox and allow user to change ("currently selected element but should be only the bio"), when enter is pressed remove border and SHOULD remove event listner but currently does
+// when you click an element in celebrity list, put a border around that element's parent, focus the textbox and allow user to change biography, need to seperate image section at some point...
 let celebID;
 let splitID;
 
