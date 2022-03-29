@@ -1,29 +1,31 @@
-import { celebrityData } from "./celebrityData.js";
+import { getCelebrities, updateCeleb } from "./dataManager.js";
 import { cycleBgColor } from "./helper.js";
 
 // inserts html for celebs
-const celebritiesHTMLInsert = (obj, id) => {
+const celebritiesHTMLInsert = (obj) => {
   const celebrityTarget = document.querySelector(".celebrityList");
   celebrityTarget.innerHTML += `
-  <div class = "singleCelebrity${cycleBgColor()} id=singleCelebrity_${id}" >
-    <header class="name" id = "name_${id}">${obj.name}: ${obj.title}</header>
-    <section class="bio" id = "bioTotal_${id}"><img src="${
+  <div class = "singleCelebrity${cycleBgColor()} id=singleCelebrity_${obj.id}" >
+    <header class="name" id = "name_${obj.id}">${obj.name}: ${
+    obj.title
+  }</header>
+    <section class="bio" id = "bioTotal_${obj.id}"><img src="${
     obj.image
   }" alt="celebrity picture">
-  <div class="bioText" id = "bio_${id}">${obj.bio}</div>
+  <div class="bioText" id = "bio_${obj.id}">${obj.bio}</div>
   </section>
-    <footer class="lifespan" id = "lifespan_${id}">${obj.lifespan.birth} - ${
-    obj.lifespan.death
-  }</footer>
+    <footer class="lifespan" id = "lifespan_${obj.id}">${
+    obj.lifespan.birth
+  } - ${obj.lifespan.death}</footer>
   </div>
   `;
 };
 // iterates data and inserts html element for every celeb and adds an id to all elements of that celeb
-export const buildCelebrities = (data) => {
-  let id = 1;
-  celebrityData.forEach((celebrity) => {
-    celebritiesHTMLInsert(celebrity, id);
-    id++;
+export const buildCelebrities = () => {
+  getCelebrities().then((allCelebs) => {
+    allCelebs.forEach((celebrity) => {
+      celebritiesHTMLInsert(celebrity);
+    });
   });
 };
 
@@ -34,10 +36,12 @@ let splitID;
 document
   .querySelector(".celebrityList")
   .addEventListener("click", (celebClickEvent) => {
+    if (celebID) {
+      document.getElementById(celebID).parentElement.style.borderStyle = "none";
+    }
     celebID = celebClickEvent.target.id;
     splitID = celebID.split("_");
     document.getElementById(celebID).parentElement.style.borderStyle = "dotted";
-    console.log(celebClickEvent.target.id);
     document.getElementById("textInput").focus();
   });
 
@@ -47,7 +51,16 @@ document.querySelector("#textInput").addEventListener("keyup", (keyupEvent) => {
     document.getElementById(`bio_${splitID[1]}`).innerHTML = currentText;
   }
   if (keyupEvent.keyCode === 13) {
+    const celebNewBio = document.getElementById("textInput").value;
     document.getElementById("textInput").value = "";
     document.getElementById(celebID).parentElement.style.borderStyle = "none";
+    const celebObj = {
+      bio: celebNewBio,
+      id: splitID[1],
+    };
+
+    updateCeleb(celebObj).then(() => {
+      buildCelebrities();
+    });
   }
 });
